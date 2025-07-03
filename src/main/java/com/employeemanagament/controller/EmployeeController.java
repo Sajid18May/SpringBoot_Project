@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.employeemanagament.dto.EmployeeDto;
 import com.employeemanagament.entity.Address;
@@ -28,12 +29,27 @@ public class EmployeeController {
 		return "Registration";
 	}
 	
-//	@PostMapping("/saveEmp")
-//	public String registerEmployee(Employee employee,Model model) {
-//		empservice.saveEmployee(employee);
-//		model.addAttribute("msg","Registered Succesfully");
-//		return "Registration";
-//	}
+	@GetMapping("/reg")
+	public String empPage() {
+		return "Employee";
+	}
+	
+	@PostMapping("/saveEmp")
+	public String registerEmployee(
+			@RequestParam String firstName,
+			@RequestParam String lastName,
+			@RequestParam String email,
+			@RequestParam String mobile,
+			Model model) {
+		Employee employee=new Employee();
+		employee.setFirstName(firstName);
+		employee.setLastName(lastName);
+		employee.setEmail(email);
+		employee.setMobile(mobile);
+		empservice.saveEmployee(employee);
+		model.addAttribute("mes","Registered Succesfully");
+		return "Employee";
+	}
 	
 	@PostMapping("/saveReg")
 	public String registerEmployee(EmployeeDto employeeDto,Model model) {
