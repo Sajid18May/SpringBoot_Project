@@ -9,7 +9,7 @@
 </head>
 <body>
 	<h2>Update Registration Page</h2>
-	<form action="updateReg?id=${emp.id}" method="post">
+	<form action="update?id=${emp.id}" method="post">
 		<pre>
 			First Name<input type="text" name="firstName" value="${emp.firstName}">
 			Last Name<input type="text" name="lastName" value="${emp.lastName}">

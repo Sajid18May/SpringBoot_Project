@@ -38,7 +38,7 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/updateEmp")
-	public String updatePage(Long id,Model model) {
+	public String updatePage(@RequestParam Long id,Model model) {
 		Employee employee=empservice.getEmployeeById(id);
 		model.addAttribute("emp",employee);
 		return "UpdateRegistration";
@@ -88,19 +88,21 @@ public class EmployeeController {
 		return "Registrations";
 	}
 	
-	@PostMapping("/updateEmp")
+	@PostMapping("/update")
 	public String modifyEmployee(
+			@RequestParam Long id,
 			@RequestParam String firstName,
 			@RequestParam String lastName,
 			@RequestParam String email,
 			@RequestParam String mobile,
 			Model model) {
 		Employee employee=new Employee();
+		employee.setId(id);
 		employee.setFirstName(firstName);
 		employee.setLastName(lastName);
 		employee.setEmail(email);
 		employee.setMobile(mobile);
-		empservice.saveEmployee(employee);
+		empservice.updateEmployee(employee);
 		List<Employee> employees = empservice.getAllEmployees();
 		model.addAttribute("employees",employees);
 		return "Registrations";
