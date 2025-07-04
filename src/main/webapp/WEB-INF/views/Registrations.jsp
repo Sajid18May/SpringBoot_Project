@@ -24,6 +24,8 @@
 			<td>${emp.lastName}</td>
 			<td>${emp.email}</td>
 			<td>${emp.mobile}</td>
+			<td><a href="deleteEmp?id=${emp.id}">delete</a></td>
+			<td><a href="updateEmp?id=${emp.id}">Update</a></td>
 		</tr>
 </e:forEach>
 	</table>

@@ -21,4 +21,18 @@ public class EmployeeService {
 		 List<Employee> employees =emprepo.findAll();
 		 return employees;
 	}
+	
+	public Employee getEmployeeById(Long id){
+		 Employee employee=new Employee();
+		 employee=emprepo.findById(id).get();
+		 return employee;
+	}
+	
+	public void removeEmployee(Long id) {
+		emprepo.deleteById(id);
+	}
+	
+	public void updateEmployee(Employee employee) {
+		emprepo.save(employee);
+	}
 }

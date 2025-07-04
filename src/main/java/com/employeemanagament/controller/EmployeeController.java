@@ -37,6 +37,13 @@ public class EmployeeController {
 		return "Employee";
 	}
 	
+	@GetMapping("/updateEmp")
+	public String updatePage(Long id,Model model) {
+		Employee employee=empservice.getEmployeeById(id);
+		model.addAttribute("emp",employee);
+		return "UpdateRegistration";
+	}
+	
 	@GetMapping("/registrations")
 	public String getEmployees(ModelMap model) {
 		List<Employee> employees = empservice.getAllEmployees();
@@ -71,5 +78,31 @@ public class EmployeeController {
 		addressService.saveAddress(add);
 		model.addAttribute("msg","Registered Succesfully");
 		return "Registration";
+	}
+	
+	@GetMapping("/deleteEmp")
+	public String deleteEmp(@RequestParam Long id,Model model) {
+		empservice.removeEmployee(id);
+		List<Employee> employees = empservice.getAllEmployees();
+		model.addAttribute("employees",employees);
+		return "Registrations";
+	}
+	
+	@PostMapping("/updateEmp")
+	public String modifyEmployee(
+			@RequestParam String firstName,
+			@RequestParam String lastName,
+			@RequestParam String email,
+			@RequestParam String mobile,
+			Model model) {
+		Employee employee=new Employee();
+		employee.setFirstName(firstName);
+		employee.setLastName(lastName);
+		employee.setEmail(email);
+		employee.setMobile(mobile);
+		empservice.saveEmployee(employee);
+		List<Employee> employees = empservice.getAllEmployees();
+		model.addAttribute("employees",employees);
+		return "Registrations";
 	}
 }
