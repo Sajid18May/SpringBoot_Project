@@ -1,5 +1,7 @@
 package com.employeemanagament.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,5 +15,10 @@ public class EmployeeService {
 	
 	public void saveEmployee(Employee employee) {
 		emprepo.save(employee);
+	}
+	
+	public List<Employee> getAllEmployees(){
+		 List<Employee> employees =emprepo.findAll();
+		 return employees;
 	}
 }

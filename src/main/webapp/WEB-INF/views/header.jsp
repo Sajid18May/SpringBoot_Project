@@ -7,6 +7,6 @@
 </head>
 <body>
 <a href="reg">Register Employee</a>
-<a href="">List Employees</a>
+<a href="registrations">List Employees</a>
 </body>
 </html>
