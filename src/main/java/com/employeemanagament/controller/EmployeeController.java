@@ -17,6 +17,7 @@ import com.employeemanagament.entity.Address;
 import com.employeemanagament.entity.Employee;
 import com.employeemanagament.service.AddressService;
 import com.employeemanagament.service.EmployeeService;
+import com.employeemanagament.utility.EmployeeEmailSender;
 
 @Controller
 @RequestMapping("/emp")
@@ -26,6 +27,9 @@ public class EmployeeController {
 	
 	@Autowired
 	private AddressService addressService;
+	
+	@Autowired
+	private EmployeeEmailSender emailSender;
 	
 	@GetMapping("/home")
 	public String homePage() {
@@ -68,6 +72,18 @@ public class EmployeeController {
 		return "Employee";
 	}
 	
+//	@PostMapping("/saveReg")
+//	public String registerEmployee(EmployeeDto employeeDto,Model model) {
+//		Employee emp=new Employee();
+//		BeanUtils.copyProperties(employeeDto, emp);
+//		empservice.saveEmployee(emp);
+//		Address add=new Address();
+//		BeanUtils.copyProperties(employeeDto, add);
+//		addressService.saveAddress(add);
+//		model.addAttribute("msg","Registered Succesfully");
+//		return "Registration";
+//	}
+	
 	@PostMapping("/saveReg")
 	public String registerEmployee(EmployeeDto employeeDto,Model model) {
 		Employee emp=new Employee();
@@ -76,6 +92,7 @@ public class EmployeeController {
 		Address add=new Address();
 		BeanUtils.copyProperties(employeeDto, add);
 		addressService.saveAddress(add);
+		emailSender.sendEmail(employeeDto.getEmail(), "Registration Succesful !!", "You Have Registered Successfully");
 		model.addAttribute("msg","Registered Succesfully");
 		return "Registration";
 	}
