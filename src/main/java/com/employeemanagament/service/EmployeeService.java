@@ -27,11 +27,11 @@ public class EmployeeService {
 	public EmployeeDto savaEmployeeDto(EmployeeDto employeeDto) {
 		Employee emp=new Employee();
 		BeanUtils.copyProperties(employeeDto, emp);
-		Address add=new Address();
-		BeanUtils.copyProperties(employeeDto, add);
+		Address adds=new Address();
+		BeanUtils.copyProperties(employeeDto, adds);
 		
 		Employee employeeSaved = emprepo.save(emp);
-		Address addredSaved=addressrepo.save(add);
+		Address addredSaved=addressrepo.save(adds);
 		
 		EmployeeDto dto = new EmployeeDto();
 		BeanUtils.copyProperties(employeeSaved, dto);
@@ -57,5 +57,10 @@ public class EmployeeService {
 	
 	public void updateEmployee(Employee employee) {
 		emprepo.save(employee);
+	}
+
+	public void deleteEmployeeById(Long id) {
+		emprepo.deleteById(id);
+		
 	}
 }
