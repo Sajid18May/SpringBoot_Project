@@ -3,6 +3,8 @@ package com.employeemanagament.api;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -72,5 +74,22 @@ public class EmployeeControllerAPI {
 		response.setData(employees);
 		
 		return new ResponseEntity<>(response,HttpStatus.OK);
+	}
+	
+	@GetMapping("/getEmployeePage")
+	public ResponseEntity<APIResponce<List<Employee>>> getEmployeePage(
+			@RequestParam(defaultValue ="0") int pageNo,
+			@RequestParam(defaultValue ="3")int pageSize,
+			@RequestParam(defaultValue ="email")String sortBy,
+			@RequestParam(defaultValue ="ASC")String sortDir
+			){
+		List<Employee> employees= empseService.getAllEmployees(pageNo,pageSize,sortBy,sortDir);
+		
+		APIResponce<List<Employee>> responce=new APIResponce<>();
+		responce.setMessage("Retrived Employee Page");
+		responce.setStatus(200);
+		responce.setData(employees);
+		
+		return new ResponseEntity<>(responce,HttpStatus.OK);
 	}
 }

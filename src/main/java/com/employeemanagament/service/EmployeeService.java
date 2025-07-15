@@ -4,6 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.employeemanagament.dto.EmployeeDto;
@@ -62,5 +67,16 @@ public class EmployeeService {
 	public void deleteEmployeeById(Long id) {
 		emprepo.deleteById(id);
 		
+	}
+
+	public List<Employee> getAllEmployees(int pageNo, int pageSize, String sortBy,
+			String sortDir) {
+		 sortDir=sortDir.toUpperCase();
+		 Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(Direction.valueOf(sortDir), sortBy));
+		 
+		 Page<Employee> employeePage = emprepo.findAll(pageable);
+		 List<Employee> employees=employeePage.getContent();
+		 
+		return employees;
 	}
 }
