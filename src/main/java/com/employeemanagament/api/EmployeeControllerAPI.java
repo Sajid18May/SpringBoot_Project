@@ -3,12 +3,12 @@ package com.employeemanagament.api;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +21,8 @@ import com.employeemanagament.entity.Employee;
 import com.employeemanagament.response.APIResponce;
 import com.employeemanagament.service.EmployeeService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/emp")
 public class EmployeeControllerAPI {
@@ -29,9 +31,16 @@ public class EmployeeControllerAPI {
 	EmployeeService empseService;
 	
 	@PostMapping("/add")
-	public ResponseEntity<APIResponce<EmployeeDto>> createEmployeeRegistration(@RequestBody EmployeeDto employeeDto) {
-		EmployeeDto dto=empseService.savaEmployeeDto(employeeDto);
+	public ResponseEntity<APIResponce<EmployeeDto>> createEmployeeRegistration(@Valid @RequestBody EmployeeDto employeeDto,BindingResult result) {
+		if(result.hasErrors()) {
+			APIResponce<EmployeeDto> response=new APIResponce<>();
+			response.setMessage(result.getFieldError().toString());
+			response.setStatus(500);
+			response.setData(null);
+			return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		
+		EmployeeDto dto=empseService.savaEmployeeDto(employeeDto);
 		APIResponce<EmployeeDto> response=new APIResponce<>();
 		response.setMessage("Registered Successfully");
 		response.setStatus(201);
@@ -72,6 +81,18 @@ public class EmployeeControllerAPI {
 		response.setMessage("Retrival Done");
 		response.setStatus(200);
 		response.setData(employees);
+		
+		return new ResponseEntity<>(response,HttpStatus.OK);
+	}
+	
+	@GetMapping("/get/{id}")
+	public ResponseEntity<APIResponce<Employee>> getEmployeesById(@PathVariable long id){
+		Employee employee = empseService.getEmployeeById(id);
+		
+		APIResponce<Employee> response=new APIResponce<>();
+		response.setMessage("Retrival Done");
+		response.setStatus(200);
+		response.setData(employee);
 		
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}

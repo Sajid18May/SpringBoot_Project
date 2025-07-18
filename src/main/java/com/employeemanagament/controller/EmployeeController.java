@@ -19,6 +19,8 @@ import com.employeemanagament.service.AddressService;
 import com.employeemanagament.service.EmployeeService;
 import com.employeemanagament.utility.EmployeeEmailSender;
 
+import jakarta.validation.Valid;
+
 @Controller
 @RequestMapping("/emp")
 public class EmployeeController {
@@ -85,7 +87,7 @@ public class EmployeeController {
 //	}
 	
 	@PostMapping("/saveReg")
-	public String registerEmployee(EmployeeDto employeeDto,Model model) {
+	public String registerEmployee(@Valid EmployeeDto employeeDto,Model model) {
 		Employee emp=new Employee();
 		BeanUtils.copyProperties(employeeDto, emp);
 		empservice.saveEmployee(emp);

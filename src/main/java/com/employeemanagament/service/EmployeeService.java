@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 import com.employeemanagament.dto.EmployeeDto;
 import com.employeemanagament.entity.Address;
 import com.employeemanagament.entity.Employee;
+import com.employeemanagament.exception.ResourceNotFound;
 import com.employeemanagament.repository.AddressRepository;
 import com.employeemanagament.repository.EmployeeRepository;
+
 
 @Service
 public class EmployeeService {
@@ -50,9 +52,11 @@ public class EmployeeService {
 		 return employees;
 	}
 	
-	public Employee getEmployeeById(Long id){
+	public Employee getEmployeeById(long id){
 		 Employee employee=new Employee();
-		 employee=emprepo.findById(id).get();
+		 employee=emprepo.findById(id).orElseThrow(
+				 ()-> new ResourceNotFound("Employee not found")
+				 );
 		 return employee;
 	}
 	
